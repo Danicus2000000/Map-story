@@ -1,0 +1,1 @@
+“Thief”,“Goblin Scout”,“Bandit Chief”, “Wolf”, “Orc Scout”,“Hunter”, “Goblin Mercenary”, “Orc Footsoldier”, “Wizard Apprentice”, “Vampire”,“Goblin King”, “Corrupt Wizard”, “Orc Warrior”, “Giant Eagle”,“Ancient Wyvern”, “Master Wizard”, “Orc King”, “Master Vampire”
