@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-namespace Map_story
+﻿namespace Map_story
 {
     class Program
     {
@@ -11,44 +6,26 @@ namespace Map_story
         {
             #region Declared Variables
             //Declaring variables
-            Random hp_set= new Random();//creates a random generator to set the players max hp
-            int max_hp = hp_set.Next(16,34); //sets the players maximum hp
+            Random hp_set = new();//creates a random generator to set the players max hp
+            int max_hp = hp_set.Next(16, 34); //sets the players maximum hp
             int hp = max_hp; //make an enemy random chance for emeies tospawn during tile cross
             int kills = 0;//tracks number of kills the player has
-            int result_roll = 0;//stores result of random enem_chance
-            int result_choice = 0;//stores rsult of enem_choice
+            int result_roll;//stores result of random enem_chance
+            int result_choice;//stores rsult of enem_choice
             int health_potions = 2; //stores the number of  potions you own that heal 10 hp
             int max_hp_potions = 0; //stores the number of max hp potions that restore all health
             int level_up_potions = 0; //stores level up poitons that when used level you up restoring your health and increasing it and your damage
             bool potion_used = false;// value=true when potion used false if not used during battle phase
             int gold = 0; //overall storage of gold
-            int gold_earned = 0;//gold earned from battle
-            string choice = null; //stores the choices you make throughout the game
-            bool run = false; //works out whether running occured correctly
-            int enemy_hp = 0;//stores the Hp of the current enemy being fought
-            int enemy_max_hp_result = 0;//stores result of the random generation of enemy_max hp bound by an array that limmits it based on the individual class
-            //int enemy_max_hp = 10;//enemy hp maximum starts at 10
-            //int enemy_attack = 2; //enemy attack begins at 2 dph
-            Random enem_chance = new Random();//Stores the random generator for the chance of an enemy popping up
-            Random enem_damage = new Random();//stores the random generator for enemy damage
-            int enem_attack = 0;//stores the result of how much damage an enemy does on his turn
+            Random enem_chance = new();//Stores the random generator for the chance of an enemy popping up
+            Random enem_damage = new();//stores the random generator for enemy damage
             int enem_level = 1;//add enemy level to their damage and hp
-            Random player_damage = new Random();//gets random amount of player damage
-            int player_attack = 0;//stores the random amount of damage a player does on his turn
+            Random player_damage = new();//gets random amount of player damage
             int player_level = 1;//add player_level to the damage and hp
             //result_roll = roll.Next(1, 4); how to roll for enemy
             int mapspace = 13;//stores current position on the map
             int tries = 0;//stores number of attempts you've had at enetering your name
-            string name = null;//stores your name
-            string confirm = null;//stores your confirmation of name
-            string potion_choice = null;//stores wether or not you used a potion on your turn
-            string go_to = null;//stores where you want to go to on your movement phase
-            bool north = true;//stores whether you can move north
-            bool south = true;//stores whether you can move south
-            bool east = true;//stores whether you can move east
-            bool west = false;//stores whether you can move west
-            Random run_fail = new Random();//stores the random generator to see if running fails
-            int run_fail_result = 0;//stores the result of the 1/8 chance of running failing
+            Random run_fail = new();//stores the random generator to see if running fails
             #endregion
 
             #region Map Parts
@@ -209,36 +186,37 @@ namespace Map_story
             enemy_max_damage[24] = 12;//Orc King's max attack
             enemy_max_damage[25] = 14;//Master Vampire's max attack
             enemy_max_damage[26] = 125;//Horseless HeadLess HorseMan's max attack
+            string name;
             #endregion
 
             while (true)//name confimation loop
+            {
+                Console.WriteLine("Hello brave adventurer what be your name?");
+                name = Console.ReadLine() ?? string.Empty;
+                Console.WriteLine("Ah are you definitely called {0}?", name);
+                string confirm = Console.ReadLine()?.ToUpper() ?? string.Empty;
+                if ((confirm == "YES") || (confirm == "YA") || (confirm == "YE") || (confirm == "YEET"))
                 {
-                    Console.WriteLine("Hello brave adventurer what be your name?");
-                    name = Console.ReadLine();
-                    Console.WriteLine("Ah are you definitely called {0}?", name);
-                    confirm = Console.ReadLine().ToUpper();
-                    if ((confirm == "YES") || (confirm == "YA") || (confirm == "YE") || (confirm=="YEET"))
-                    {
-                        Console.Clear();
-                        break;
-                    }
-                    else if (tries >= 10)
-                    {
-                        Console.WriteLine("Are you okay Buddy??");
-                        Console.WriteLine("I think you need some help...");
-                    }
-
-                    else
-                    {
-                        Console.WriteLine("Okay then...");
-                        tries++;
-                    
-                    }
+                    Console.Clear();
+                    break;
                 }
-                while (true)//Game begins
+                else if (tries >= 10)
                 {
-                run = false;//sets run to false to ensure your escape can occur
-                run_fail_result = 0;//resets run_fail_result so you can escape
+                    Console.WriteLine("Are you okay Buddy??");
+                    Console.WriteLine("I think you need some help...");
+                }
+
+                else
+                {
+                    Console.WriteLine("Okay then...");
+                    tries++;
+
+                }
+            }
+            while (true)//Game begins
+            {
+                bool run = false;
+                string choice;
                 #region Shop Logic
                 if (mapspace == 9)
                 {
@@ -255,7 +233,7 @@ namespace Map_story
                         {
                             Console.WriteLine("Would you like to make another purchase?");
                         }
-                        choice = Console.ReadLine().ToUpper();
+                        choice = Console.ReadLine()?.ToUpper() ?? string.Empty;
                         if ((choice == "YES") || (choice == "YE") || (choice == "YEET") || (choice == "YEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"))
                         {
                             while (true)
@@ -265,7 +243,7 @@ namespace Map_story
                                 Console.WriteLine("3)Level Up potions: 75 Gold");
                                 Console.WriteLine("Your have {0} gold", gold);
                                 Console.WriteLine("Please Select a Potion or type quit or q to quit:");
-                                choice = Console.ReadLine().ToUpper();
+                                choice = Console.ReadLine()?.ToUpper() ?? string.Empty;
                                 if ((choice == "H") || (choice == "HEALTH POTION") || (choice == "HEALTH POTIONS") || (choice == "1"))
                                 {
                                     if (gold >= 35)
@@ -345,10 +323,12 @@ namespace Map_story
                 Console.WriteLine("Press Enter to continue {0}!", name);
                 Console.ReadLine();
                 Console.Clear();
-                Console.WriteLine(map_parts[mapspace-1]); //gets description for the current tile
+                Console.WriteLine(map_parts[mapspace - 1]); //gets description for the current tile
+                string go_to;
                 while (true)
                 {
-                    if ((mapspace == 1) || (mapspace == 2) || (mapspace == 3) || (mapspace==4) || (mapspace==5))//Fetches the possibilities of movement in the 3x3 grid
+                    bool north;
+                    if ((mapspace == 1) || (mapspace == 2) || (mapspace == 3) || (mapspace == 4) || (mapspace == 5))//Fetches the possibilities of movement in the 3x3 grid
                     {
                         north = false;
                     }
@@ -356,7 +336,9 @@ namespace Map_story
                     {
                         north = true;
                     }
-                    if ((mapspace == 5) || (mapspace == 10) || (mapspace == 15) || (mapspace==20) || (mapspace==25))
+
+                    bool east;
+                    if ((mapspace == 5) || (mapspace == 10) || (mapspace == 15) || (mapspace == 20) || (mapspace == 25))
                     {
                         east = false;
                     }
@@ -364,7 +346,9 @@ namespace Map_story
                     {
                         east = true;
                     }
-                    if ((mapspace == 1) || (mapspace == 6) || (mapspace == 11) || (mapspace== 16) || (mapspace==21))
+
+                    bool west;
+                    if ((mapspace == 1) || (mapspace == 6) || (mapspace == 11) || (mapspace == 16) || (mapspace == 21))
                     {
                         west = false;
                     }
@@ -372,7 +356,9 @@ namespace Map_story
                     {
                         west = true;
                     }
-                    if ((mapspace == 21) || (mapspace == 22) || (mapspace == 23) || (mapspace==24) || (mapspace==25))
+
+                    bool south;
+                    if ((mapspace == 21) || (mapspace == 22) || (mapspace == 23) || (mapspace == 24) || (mapspace == 25))
                     {
                         south = false;
                     }
@@ -380,18 +366,18 @@ namespace Map_story
                     {
                         south = true;
                     }
-        
+
                     Console.WriteLine("Where would you like to go, oh awesome Adventurer? (north, south, east and west (or I for inventory))!");//gets the players desired move
-                    go_to=Console.ReadLine().ToUpper();
+                    go_to = Console.ReadLine()?.ToUpper() ?? string.Empty;
                     Console.Clear();
                     result_roll = enem_chance.Next(1, 4);//rolls to see if an enemy shows up
-                    run_fail_result = 0;//resets run_fail_result
-                    if (result_roll == 2 && go_to!="I" && go_to !="INVENTORY" && go_to!="Q" && go_to!="QUIT" && (go_to=="NORTH" || go_to=="N" || go_to=="SOUTH" || go_to=="S" || go_to=="EAST" || go_to=="E" || go_to=="WEST" || go_to=="W")) //ensures that an enemy is nessasary for instance if an invalid input occurs an enemy isn't needed
+                    int run_fail_result = 0;
+                    if (result_roll == 2 && go_to != "I" && go_to != "INVENTORY" && go_to != "Q" && go_to != "QUIT" && (go_to == "NORTH" || go_to == "N" || go_to == "SOUTH" || go_to == "S" || go_to == "EAST" || go_to == "E" || go_to == "WEST" || go_to == "W")) //ensures that an enemy is nessasary for instance if an invalid input occurs an enemy isn't needed
                     {
-                        result_choice = enem_chance.Next(0,enemy_names.Length-1);//rolls for a random enemy from the list of possible enemies
-                        enemy_max_hp_result = enem_damage.Next(enemy_max_hp[result_choice] - 4+(enem_level-1), enemy_max_hp[result_choice]+(enem_level-1)); //gets the maximum helath of this enemy using the defined maximum with some random variation
-                        enemy_hp = enemy_max_hp_result;//sets hp to equal result
-                        Console.WriteLine("A {0} appeared leader {1} let us defeat it in glorious battle!",enemy_names[result_choice],name); //displays enemies appearence
+                        result_choice = enem_chance.Next(0, enemy_names.Length - 1);//rolls for a random enemy from the list of possible enemies
+                        int enemy_max_hp_result = enem_damage.Next(enemy_max_hp[result_choice] - 4 + (enem_level - 1), enemy_max_hp[result_choice] + (enem_level - 1));
+                        int enemy_hp = enemy_max_hp_result;
+                        Console.WriteLine("A {0} appeared leader {1} let us defeat it in glorious battle!", enemy_names[result_choice], name); //displays enemies appearence
                         Console.WriteLine("Press enter to Issue your command {0}!", name);//gives the player time to read :)
                         Console.ReadLine();
                         while (true)
@@ -404,8 +390,8 @@ namespace Map_story
                                 Console.WriteLine("1)Fight");
                                 Console.WriteLine("2)Bag");
                                 Console.WriteLine("3)Run");
-                                choice = Console.ReadLine().ToUpper();
-                                if ((choice == "RUN") || (choice == "FIGHT") || (choice=="BAG") || (choice=="R") ||(choice=="F") || (choice=="B") || (choice=="1") || (choice=="2") || (choice=="3"))
+                                choice = Console.ReadLine()?.ToUpper() ?? string.Empty;
+                                if ((choice == "RUN") || (choice == "FIGHT") || (choice == "BAG") || (choice == "R") || (choice == "F") || (choice == "B") || (choice == "1") || (choice == "2") || (choice == "3"))
                                 {
                                     break;
                                 }
@@ -416,7 +402,7 @@ namespace Map_story
                                     Console.ReadLine();
                                 }
                             }
-                            if ((choice == "RUN") || (choice == "R") || (choice=="3") && (run_fail_result != 7) )
+                            if ((choice == "RUN") || (choice == "R") || (choice == "3") && (run_fail_result != 7))
                             {
                                 run_fail_result = run_fail.Next(1, 8);
                                 if (run_fail_result == 7)
@@ -432,13 +418,13 @@ namespace Map_story
                                     break;
                                 }
                             }
-                            else if ((choice == "RUN") || (choice == "R") || (choice=="3") && (run_fail_result == 7))
+                            else if ((choice == "RUN") || (choice == "R") || (choice == "3") && (run_fail_result == 7))
                             {
                                 Console.WriteLine("{0} the monster has us Cornered we can't escape now!", name);
                                 Console.WriteLine("Press Enter to stand your ground!");
                                 Console.ReadLine();
                             }
-                            else if ((choice == "BAG") || (choice == "B") || (choice=="2"))
+                            else if ((choice == "BAG") || (choice == "B") || (choice == "2"))
                             {
                                 while (true)
                                 {
@@ -458,15 +444,15 @@ namespace Map_story
                                     {
                                         Console.WriteLine("3)Level up potions: {0} (You Know wha they do!)", level_up_potions);
                                     }
-                                    if (level_up_potions==0 && max_hp_potions==0 && health_potions == 0)
+                                    if (level_up_potions == 0 && max_hp_potions == 0 && health_potions == 0)
                                     {
                                         Console.WriteLine("Your Inventory is Empty Press Enter to return to battle!");
                                         Console.ReadLine();
                                         break;
                                     }
                                     Console.WriteLine("Press enter to Go back or Select a potion to use.");
-                                    potion_choice = Console.ReadLine().ToUpper();
-                                    if ((potion_choice == "H") || (potion_choice == "HEALTH POTION") || (potion_choice=="HEALTH POTIONS") || (potion_choice=="1"))
+                                    string potion_choice = Console.ReadLine()?.ToUpper() ?? string.Empty;
+                                    if ((potion_choice == "H") || (potion_choice == "HEALTH POTION") || (potion_choice == "HEALTH POTIONS") || (potion_choice == "1"))
                                     {
                                         if (max_hp == hp)
                                         {
@@ -481,7 +467,7 @@ namespace Map_story
                                             if (hp + 10 > max_hp)
                                             {
                                                 hp = max_hp;
-               
+
                                             }
                                             else
                                             {
@@ -499,7 +485,7 @@ namespace Map_story
                                             Console.ReadLine();
                                         }
                                     }
-                                    else if ((potion_choice == "M") || (potion_choice == "MAX HP POTION") || (potion_choice=="MAX HP POTIONS") || (potion_choice=="2"))
+                                    else if ((potion_choice == "M") || (potion_choice == "MAX HP POTION") || (potion_choice == "MAX HP POTIONS") || (potion_choice == "2"))
                                     {
                                         if (max_hp == hp)
                                         {
@@ -524,7 +510,7 @@ namespace Map_story
                                             Console.ReadLine();
                                         }
                                     }
-                                    else if ((potion_choice == "L") || (potion_choice == "LEVEL UP POTION") || (potion_choice=="LEVEL UP POTIONS") || (potion_choice=="3"))
+                                    else if ((potion_choice == "L") || (potion_choice == "LEVEL UP POTION") || (potion_choice == "LEVEL UP POTIONS") || (potion_choice == "3"))
                                     {
                                         if (level_up_potions >= 1)
                                         {
@@ -544,7 +530,7 @@ namespace Map_story
                                             Console.ReadLine();
                                         }
                                     }
-                                    else if ((potion_choice=="Q") || potion_choice == "QUIT" || potion_choice=="" || potion_choice==null)
+                                    else if ((potion_choice == "Q") || potion_choice == "QUIT" || potion_choice == "" || potion_choice == null)
                                     {
                                         Console.WriteLine("Press Enter to return!");
                                         Console.ReadLine();
@@ -552,18 +538,18 @@ namespace Map_story
                                     }
                                     else
                                     {
-                                        Console.WriteLine("What are you on about {0} Press enter and give me a proper command",name);
+                                        Console.WriteLine("What are you on about {0} Press enter and give me a proper command", name);
                                         Console.ReadLine();
                                     }
                                 }
                             }
-                            else if ((choice == "FIGHT") || (choice == "F") || run_fail_result==7 || potion_used==true || choice=="1")
+                            else if ((choice == "FIGHT") || (choice == "F") || run_fail_result == 7 || potion_used == true || choice == "1")
                             {
-                                if ((potion_used != true) || (choice=="FIGHT") || (choice=="F") || (run_fail_result!=7) || (choice=="1"))
+                                if ((potion_used != true) || (choice == "FIGHT") || (choice == "F") || (run_fail_result != 7) || (choice == "1"))
                                 {
 
 
-                                    player_attack = player_damage.Next(0 + player_level, 5 + player_level);
+                                    int player_attack = player_damage.Next(0 + player_level, 5 + player_level);
                                     enemy_hp -= player_attack;
                                     Console.WriteLine("You attack the {0} and do {1} dammage {2}", enemy_names[result_choice], player_attack, name);
                                     if (player_attack == 4 + player_level)
@@ -573,7 +559,7 @@ namespace Map_story
                                     if (enemy_hp <= 0)
                                     {
                                         Console.WriteLine("{0} has defeated {1} well done!", name, enemy_names[result_choice]);
-                                        gold_earned = enem_damage.Next(5, 20);
+                                        int gold_earned = enem_damage.Next(5, 20);
                                         gold += gold_earned;
                                         Console.WriteLine("You also found {0} Gold on the body making your total gold {1}", gold_earned, gold);
                                         Console.WriteLine("You Add this enemy to your killist its description Reads as follows\n{0}", enemy_descriptions[result_choice]);
@@ -602,7 +588,7 @@ namespace Map_story
                                     Console.ReadLine();
                                 }
                             }
-                            enem_attack = enem_damage.Next(0 + enem_level, enemy_max_damage[result_choice] + enem_level);
+                            int enem_attack = enem_damage.Next(0 + enem_level, enemy_max_damage[result_choice] + enem_level);
                             Console.WriteLine("{0} is prepairing to attack!", enemy_names[result_choice]);
                             Console.WriteLine("{0} attacks dealing {1} damage to you", enemy_names[result_choice], enem_attack);
                             hp -= enem_attack;
@@ -615,11 +601,11 @@ namespace Map_story
                             Console.ReadLine();
                         }
                     }
-                    if ((go_to == "QUIT") || (go_to=="Q") || (hp == 0) || (run == true))//Checks if you wanna quit
+                    if ((go_to == "QUIT") || (go_to == "Q") || (hp == 0) || (run == true))//Checks if you wanna quit
                     {
                         break;
                     }
-                    else if (go_to=="INVENTORY" || go_to == "I")
+                    else if (go_to == "INVENTORY" || go_to == "I")
                     {
                         Console.WriteLine("Inventory");
                         Console.WriteLine(")-------(");
@@ -645,31 +631,31 @@ namespace Map_story
                         }
                         Console.WriteLine();
                     }
-                    else if (((go_to == "NORTH") ||(go_to=="N")) && (north == true))//checks if you can move north 
+                    else if (((go_to == "NORTH") || (go_to == "N")) && (north == true))//checks if you can move north 
                     {
                         mapspace -= 5;
                         Console.WriteLine("{0} Heads North", name);
                         break;
                     }
-                    else if (((go_to == "SOUTH") ||(go_to=="S")) && (south == true))//checks if you can move south
+                    else if (((go_to == "SOUTH") || (go_to == "S")) && (south == true))//checks if you can move south
                     {
                         mapspace += 5;
                         Console.WriteLine("{0} Heads South!", name);
                         break;
                     }
-                    else if (((go_to == "EAST") || (go_to=="E")) && (east == true))//checks if you can move east
+                    else if (((go_to == "EAST") || (go_to == "E")) && (east == true))//checks if you can move east
                     {
                         mapspace++;
                         Console.WriteLine("{0} Heads East!", name);
                         break;
                     }
-                    else if (((go_to == "WEST") || (go_to=="W"))  && (west == true))//checks if you can move west
+                    else if (((go_to == "WEST") || (go_to == "W")) && (west == true))//checks if you can move west
                     {
                         mapspace--;
                         Console.WriteLine("{0} Heads West!", name);
                         break;
                     }
-                    else if ((go_to != "NORTH") && (go_to != "EAST") && (go_to != "SOUTH") && (go_to != "WEST") && (go_to!="N") && (go_to!="E") && (go_to!="S") && (go_to!="W"))//Checks if your talking rubbish
+                    else if ((go_to != "NORTH") && (go_to != "EAST") && (go_to != "SOUTH") && (go_to != "WEST") && (go_to != "N") && (go_to != "E") && (go_to != "S") && (go_to != "W"))//Checks if your talking rubbish
                     {
                         Console.WriteLine("{0} what the Hell are you on about tell your team where to go!", name);
                     }
@@ -681,9 +667,9 @@ namespace Map_story
 
 
                 }
-                if ((go_to == "QUIT") || (go_to=="Q") || (hp<=0))//if you pressed quit display leaving message
+                if ((go_to == "QUIT") || (go_to == "Q") || (hp <= 0))//if you pressed quit display leaving message
                 {
-                    Console.WriteLine("Goodbye {0} you were a truely amazing hero!",name);
+                    Console.WriteLine("Goodbye {0} you were a truely amazing hero!", name);
                     if (hp <= 0)
                     {
                         Console.WriteLine("It is a shame you died however!");
@@ -699,6 +685,6 @@ namespace Map_story
                 }
 
             }
-            }
         }
     }
+}
